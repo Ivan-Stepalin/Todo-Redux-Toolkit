@@ -1,37 +1,32 @@
 import "./App.css";
 import { useState } from "react";
-import {TodoForm} from "./components/TodoForm";
-import {TodoList} from "./components/TodoList";
+import { TodoForm } from "./components/TodoForm";
+import { TodoList } from "./components/TodoList";
+import { useDispatch } from "react-redux";
+import { addTodo } from "./redux/todoSlice";
 
 function App() {
   const [text, setText] = useState("");
-  const [todos, setTodos] = useState([]);
 
-  const addTodos = () => {
-    setTodos([
-      ...todos,
-      { id: new Date().toISOString(), text, completed: false },
-    ]);
-  };
+  const dispatch = useDispatch();
 
-  const removeTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-  const toggleTodoStatus = (id) => {
-    setTodos(todos.map((todo) => {
-      if(todo.id !== id) return todo
-
-      return {...todo, completed: !todo.completed}
-    }));
+  const handleSubmit = () => {
+    if (text.trim().length) {
+      dispatch(addTodo({ text }));
+      setText("");
+    }
   };
 
   return (
     <div className="page">
       <h1>Введите текст чтобы добавить его в список дел</h1>
-      <TodoForm text={text} addTodos={addTodos} setText={setText} />
+      <TodoForm
+        value={text}
+        updateValue={setText}
+        handleSubmit={handleSubmit}
+      />
 
-     <TodoList removeTodo={removeTodo} toggleTodoStatus={toggleTodoStatus} todos={todos}/>
+      <TodoList />
     </div>
   );
 }

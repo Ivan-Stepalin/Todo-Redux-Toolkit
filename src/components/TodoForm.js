@@ -1,12 +1,12 @@
-export const TodoForm = ({addTodos, text, setText}) => {
+export const TodoForm = ({handleSubmit, value, updateValue}) => {
   return (
     <label>
       <input
         type={"text"}
-        value={text}
-        onChange={(e) => setText(e.target.value)}
+        value={value}
+        onChange={(e) => updateValue(e.target.value)}
       />
-      <button onClick={addTodos}>Добавить</button>
+      <button onClick={handleSubmit}>Добавить</button>
     </label>
   );
 };
